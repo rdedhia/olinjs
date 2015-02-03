@@ -6,8 +6,8 @@ db.once('open', function (callback) {});
 
 var foodSchema = mongoose.Schema({
 	name: String,
-	price: float,
-	in_stock: Boolean
+	price: Number,
+	quantity: Number
 });
 
 var Food = mongoose.model('Food', foodSchema);
