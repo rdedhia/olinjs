@@ -1,0 +1,10 @@
+<h1>Make Your Burger!</h1>
+
+<form class="burger" method="POST">
+  {{#each ingrs}}
+    {{this.name}} ${{this.price}} <input type="checkbox" {{this.enable}}/><br/>
+  {{/each}}
+  <div id="total">
+    <input type="submit" value="Submit Order">
+  </div>  
+</form>
