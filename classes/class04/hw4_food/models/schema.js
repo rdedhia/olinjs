@@ -7,9 +7,17 @@ db.once('open', function (callback) {});
 var foodSchema = mongoose.Schema({
 	name: String,
 	price: Number,
-	quantity: Number
+	stock: Boolean
 });
 
 var Food = mongoose.model('Food', foodSchema);
 
+var orderSchema = mongoose.Schema({
+	parts: [Food],
+	completed: Boolean
+});
+
+var Order = mongoose.model('Order', orderSchema);
+
 module.exports.Food = Food;
+module.exports.Order = Order;
