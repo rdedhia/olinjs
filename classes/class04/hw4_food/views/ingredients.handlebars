@@ -1,26 +1,25 @@
 <h1>Add a new Ingredient!</h1>
 
-<form id="ingr-form" action="addFood" method="POST">
-  Food <input type="text" name="food"/><br/>
-  Price <input type="text" name="price"/><br/>
+<form id="ingr-form" method="POST">
+  Food <input type="text" class="blank" name="food"/><br/>
+  Price <input type="text" class="blank" name="price"/><br/>
   <input type="submit" value="Add">
 </form>
 
 <h2>Look at our Ingredients!</h2>
 
-{{#each ingrs}}
-  <div id={{this.id}}>
-    <form class="food" method="POST">
-      <span>
-        Item: {{this.name}} 
-        Price: ${{this.price}}
-      </span>
-      <input class="edit" type="submit" value="Edit">
-    </form>
-    <form class="stock">
-      <input type="submit" value="In Stock">
-    </form>
-  </div>
-{{/each}}
-
-<div id="result"></div>
+<div id="ingrs">
+  {{#each ingrs}}
+    <div id={{this.id}}>
+      <form class="food" method="POST">
+        <span>
+          {{this.name}}: ${{this.price}}
+        </span>
+        <input class="edit" type="submit" value="Edit">
+      </form>
+      <form class="stock">
+        <input type="submit" value="In Stock">
+      </form>
+    </div>
+  {{/each}}
+</div>

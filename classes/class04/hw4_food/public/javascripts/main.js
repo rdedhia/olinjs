@@ -1,22 +1,84 @@
+// INGREDIENTS PAGE
+
 var $form = $('#ingr-form');
 var $food = $('.food');
 var $stock = $('.stock');
 
-var onSuccess = function(id, data, status) {
-  console.log(id);
+// Defining Event Handler Functions for Ingredients Page
+var addIngredient = function(event) {
+  event.preventDefault();
+  formData = $form.serialize();
+
+  // clearing all non-button input fields
+  $form.find('.blank').val('');
+  $.get('getFood', formData)
+    .done(onSuccess)
+    .error(onError);
+};
+
+var modifyFood = function(event) {
+  var data = {}
+  event.preventDefault();
+
+  var id = $(this).parent().attr('id');
+  data['id'] = id;
+  data['name'] = prompt('Provide a new food name');
+  data['price'] = prompt('Provide a new price');
+
+  $.get('modify', data)
+    .done(editSuccess)
+    .error(onError);
+};
+
+var changeStock = function(event) {
+  var data = {}
+  event.preventDefault();
+
+  var id = $(this).parent().attr('id');
+  data['id'] = id;
   console.log(data);
-  $('this').html('Fuck you');
-  // $('#result').html('I so sleepy');
+
+  $.get('stock', data)
+    .done(successStock)
+    .error(onError);
+};
+
+// Template for onSuccess() function
+var template = '<div id="new">' +
+    '<form class="food" method="POST">' +
+      '<span></span>' +
+      '<input class="edit" type="submit" value="Edit">' +
+    '</form>' +
+    '<form class="stock">' +
+      '<input type="submit" value="In Stock">' +
+    '</form>' +
+  '</div>'
+
+// Defining Success and Error Functions for Ingredients Page
+var onSuccess = function(data, status) {
+  var text = data.name + ': $' + data.price + ' ';
+  var target = '#' + data._id + ' span';
+
+  $('#ingrs').append(template);
+  $('#new').attr('id', data._id);
+  $(target).html(text);
+
+  // adding event handlers to new ingredients
+  $('#' + data._id + ' form.food').submit(modifyFood);
+  $('#' + data._id + ' form.stock').submit(changeStock);  
 };
 
 var editSuccess = function(data, status) {
-  console.log(data);
-  $('#result').html('I so sleepy');
+  var text = data.name + ': $' + data.price + ' ';
+  var target = 'div#' + data._id + ' span';
+
+  $(target).html(text);
 };
 
 var successStock = function(data, status) {
-  console.log(data);
-  $('this').closest('input').html(data);
+  var target = 'div#' + data.id + ' form.stock input';
+
+  $(target).val(data.stock);
 }
 
 var onError = function(data, status) {
@@ -24,35 +86,20 @@ var onError = function(data, status) {
   console.log('error', data);
 };
 
-$form.submit(function(event) {
+// Binding forms to event handlers for ingredients page
+$form.submit(addIngredient);
+$food.submit(modifyFood);
+$stock.submit(changeStock);
+
+// ORDERS PAGE
+
+var submitOrder = function(event) {
   event.preventDefault();
   formData = $form.serialize();
+
+  // clearing all non-button input fields
+  $form.find('.blank').val('');
   $.get('getFood', formData)
     .done(onSuccess)
     .error(onError);
-});
-
-$food.submit(function(event) {
-  var data = {}
-  event.preventDefault();
-
-  id = this.closest('div')['id'];
-  data['id'] = id;
-  data['name'] = prompt('Provide a new food name');
-  data['price'] = prompt('Provide a new price');
-
-  $.get('modify', data)
-    .done(onSuccess(id, data))
-    .error(onError);
-});
-
-$stock.submit(function(event) {
-  var data = {}
-  event.preventDefault();
-
-  data['id'] = this.closest('div')['id'];
-
-  $.get('stock', data)
-    .done(successStock)
-    .error(onError);
-});
+};

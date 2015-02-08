@@ -12,24 +12,24 @@ var addFoodDB = function(req, res) {
   food.save(function (err) {
     if (err) {
       console.log('Problem saving food', err);
+      res.status(500).json(err);
     }
   })
-  console.log('We did a thing!');
-  // output = food.name + ', price: $' + food.price
-  // res.end(output);
-  res.end('.');
+  console.log('Yeee inserting shit');
+  console.log(food);
+  
+  res.json(food);
 }
 
 var modifyDB = function(req, res) {
-  var id;
   var info = req.query;
 
-  Food.findOneAndUpdate({id: info.id})
+  Food.findOne({_id: info.id})
     .exec(function (err, food) {
       if (err) {
         res.send('All the food is fucked (modify)');
+        res.status(500).json(err);
       } else {
-        id = food.id;
         food.name = info.name;
         food.price = info.price;
         // Not adding to database if name or price is missing
@@ -39,34 +39,45 @@ var modifyDB = function(req, res) {
           food.save(function (err) {
             if (err) {
               console.log('Problem modifying food', err);
+              res.status(500).json(err);
             } else {
-              console.log('Fuck you');
+              res.json(food);
             }
           })
         }
       }
     });
-  res.end('.');
 }
 
 var stockDB = function(req, res) {
   var info = req.query;
-  Food.findOneAndUpdate({id: info.id})
+
+  console.log('\nquery');
+  console.log(info);
+  var stock_obj = {};
+
+  Food.findOne({_id: info.id})
     .exec(function (err, food) {
       if (err) {
-        res.send('All the food is fucked (stock)');
+        console.log('Trouble finding element', err);
+        res.status(500).json(err);
       } else {
         // flip bool value to indicate if food is in stock or not
+        console.log('\nfood obj')
+        console.log(food)
         food.stock = !food.stock;
         food.save(function (err) {
           if (err) {
             console.log('Problem modifying food', err);
-          } else if (food.stock) {
-            console.log('In Stock');
-            res.end('In Stock');
+            res.status(500).json(err);
           } else {
-            console.log('Out of Stock');
-            res.end('Out of Stock');
+            stock_obj.id = food.id;
+            stock_obj.stock = food.stock ? 'In Stock' : 'Out of Stock';
+            
+            console.log('\nstock obj')
+            console.log(stock_obj);
+
+            res.json(stock_obj);
           }
         })
       }
