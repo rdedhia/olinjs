@@ -13,12 +13,11 @@ var addFoodDB = function(req, res) {
     if (err) {
       console.log('Problem saving food', err);
       res.status(500).json(err);
+    } else {
+      console.log('Yeee inserting shit');
+      res.json(food);
     }
-  })
-  console.log('Yeee inserting shit');
-  console.log(food);
-  
-  res.json(food);
+  });  
 }
 
 var modifyDB = function(req, res) {
@@ -43,7 +42,7 @@ var modifyDB = function(req, res) {
             } else {
               res.json(food);
             }
-          })
+          });
         }
       }
     });
