@@ -93,13 +93,33 @@ $stock.submit(changeStock);
 
 // ORDERS PAGE
 
-var submitOrder = function(event) {
-  event.preventDefault();
-  formData = $form.serialize();
+var $burger = $('#burger');
 
-  // clearing all non-button input fields
-  $form.find('.blank').val('');
-  $.get('getFood', formData)
+var submitOrder = function(event) {
+  var data = {};
+  data.ids = [];
+  event.preventDefault();
+
+  formData = $(this).serialize();
+  $('#burger input:checked').each(function() {
+    data.ids.push($(this).parent().attr('id'));
+  });
+  console.log(data);
+
+  $.get('addOrder', data)
     .done(onSuccess)
     .error(onError);
 };
+
+$(':checkbox').change(function() {
+  var price = parseFloat($(this).parent().find('span.price').html());
+  var total = parseFloat($('#total').html());
+  if (this.checked) {
+    $('#total').html((total + price).toFixed(2));
+  } else {
+    $('#total').html((total - price).toFixed(2));
+  }
+  console.log(price);
+});
+
+$burger.submit(submitOrder);
