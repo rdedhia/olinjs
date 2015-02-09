@@ -20,11 +20,12 @@ var ingredients = function(req, res) {
 }
 
 var orders = function(req, res) {
+  // Order.remove({}, function callback() {});
+
   Food.find({}).exec(function(err, foods) {
     if (err) {
       res.send('All the food is fucked');
     } else {
-      console.log(foods);
       // changing true and false to '' and disabled for checkboxes
       for (var i=0; i<foods.length; i++) {
         if (foods[i].stock) {
@@ -32,6 +33,7 @@ var orders = function(req, res) {
         } else {
           foods[i].enable = 'disabled'
         }
+        console.log(foods[i].enable);
       }
       console.log(foods);
       res.render('orders', {ingrs: foods});

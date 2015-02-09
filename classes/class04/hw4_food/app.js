@@ -10,6 +10,7 @@ var index = require('./routes/index');
 var getCat = require('./routes/getCat');
 var schema = require('./models/schema');
 var getFood = require('./routes/getFood');
+var getOrders = require('./routes/getOrders')
 
 var Food = schema.Food;
 
@@ -35,6 +36,8 @@ app.get('/kitchen', index.kitchen);
 app.get('/getFood', getFood.addFood);
 app.get('/modify', getFood.modify);
 app.get('/stock', getFood.stock);
+
+app.get('/addOrder', getOrders.addOrder);
 
 mongoose.connect(mongoURI);
 
