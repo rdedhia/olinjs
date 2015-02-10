@@ -1,4 +1,4 @@
-// INGREDIENTS PAGE
+// ***  INGREDIENTS PAGE  ***
 
 var $form = $('#ingr-form');
 var $food = $('.food');
@@ -91,24 +91,41 @@ $form.submit(addIngredient);
 $food.submit(modifyFood);
 $stock.submit(changeStock);
 
-// ORDERS PAGE
+// ***  ORDERS PAGE  ***
 
 var $burger = $('#burger');
 
 var submitOrder = function(event) {
   var data = {};
   data.ids = [];
+  data.ingrs = [];
+
   event.preventDefault();
 
-  formData = $(this).serialize();
   $('#burger input:checked').each(function() {
-    data.ids.push($(this).parent().attr('id'));
+    var ingr = $(this).parent();
+    data.ids.push($(ingr).attr('id'));
+    data.ingrs.push($(ingr).find('span.name').html());
   });
+  data.price = $('#total').html();
+
   console.log(data);
 
   $.get('addOrder', data)
-    .done(onSuccess)
+    .done(orderSuccess)
     .error(onError);
+};
+
+var orderSuccess = function(data, status) {
+  if (status != 500) {
+    // http://stackoverflow.com/a/8457177  
+    // Uncheck all checkboxes after submitting an order
+    $('input:checkbox').prop('checked', false);
+    $('#total').html(0);
+    $('#order-response').html('Thanks for submitting your order!');
+  } else {
+    $('#order-response').html('Sorry, we were unable to submit your order');
+  }
 };
 
 $(':checkbox').change(function() {
@@ -123,3 +140,29 @@ $(':checkbox').change(function() {
 });
 
 $burger.submit(submitOrder);
+
+// ***  KITCHEN PAGE  ***
+
+$kitchen = $('.kitchen');
+
+var processOrder = function(event) {
+  var data = {};
+  event.preventDefault();
+
+  data.id = $(this).parent().attr('id');
+
+  $.get('rmOrder', data)
+    .done(processSuccess)
+    .error(onError);
+}
+
+var processSuccess = function(data, status) {
+  if (status != 500) {
+    $('#' + data.id).remove();
+    $('#kitchen-response').html('Congrats! You processed an order!')
+  } else {
+    $('#kitchen-response').html('Unable to process order :(')
+  }
+};
+
+$kitchen.submit(processOrder);
