@@ -39,11 +39,11 @@ exports.removeOrderDB = function(req, res) {
     if (err) {
       res.status(500).json(err);
       console.log('Failed to remove document', info.id, err)
+    } else {
+      // Sending id of Order object to be removed to client
+      res.json(info);
     }
   });
-
-  // Sending id of object to be removed from page to client
-  res.json(info);
 }
 
 module.exports = exports;

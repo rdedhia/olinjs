@@ -18,7 +18,7 @@ var addIngredient = function(event) {
 
 // Function send data back to server when you submit 'Edit' button
 var modifyFood = function(event) {
-  var data = {}
+  var data = {};
   event.preventDefault();
 
   // Grabbing id of element we are editing
@@ -57,7 +57,7 @@ var template = '<div id="new">' +
     '<form class="stock">' +
       '<input type="submit" value="In Stock">' +
     '</form>' +
-  '</div>'
+  '</div>';
 
 // Success function for addIngredient get request to 'getFood'
 var addSuccess = function(data, status) {
@@ -172,7 +172,7 @@ var processSuccess = function(data, status) {
   // Removing div with id associated to order that was just removed from db
   $('#' + data.id).remove();
   // Giving feedback to user
-  $('#kitchen-response').html('Congrats! You processed an order!')
+  $('#kitchen-response').html('Congrats! You processed an order!');
 };
 
 $kitchen.submit(processOrder);
