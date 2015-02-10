@@ -1,9 +1,9 @@
 var schema = require('./../models/schema.js');
 var Food = schema.Food;
 
-var output = ''
+exports = {}
 
-var addFoodDB = function(req, res) {
+exports.addFoodDB = function(req, res) {
   var info = req.query;
   var food = new Food({name: info.food,
               price: Number(info.price),
@@ -20,7 +20,7 @@ var addFoodDB = function(req, res) {
   });  
 }
 
-var modifyDB = function(req, res) {
+exports.modifyDB = function(req, res) {
   var info = req.query;
 
   Food.findOne({_id: info.id})
@@ -48,7 +48,7 @@ var modifyDB = function(req, res) {
     });
 }
 
-var stockDB = function(req, res) {
+exports.stockDB = function(req, res) {
   var info = req.query;
 
   console.log('\nquery');
@@ -83,6 +83,4 @@ var stockDB = function(req, res) {
     });
 }
 
-module.exports.addFood = addFoodDB;
-module.exports.modify = modifyDB;
-module.exports.stock = stockDB;
+module.exports = exports;

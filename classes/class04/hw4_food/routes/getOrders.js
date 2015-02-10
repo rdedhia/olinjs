@@ -3,9 +3,12 @@ var schema = require('./../models/schema.js');
 var Food = schema.Food;
 var Order = schema.Order;
 
-var output = ''
+var exports = {}
 
-var addOrderDB = function(req, res) {
+// Function to add new orders to database when they are created from the
+// /orders page using the "Submit Order" button
+exports.addOrderDB = function(req, res) {
+  // Get ingredients information from request query
   var info = req.query;
   console.log(info.ids);
 
@@ -15,22 +18,25 @@ var addOrderDB = function(req, res) {
   });
   console.log(order);
 
+  // Save order to database
   order.save(function (err) {
     if (err) {
       console.log('Problem modifying order', err);
-      // res.status(500).json(err);
+      res.status(500).json(err);
     } else {
       console.log('\nSuccessfully inserted order into db\n');
+      res.send('.');
     }
   });
-
-  res.send('.');
 }
 
-var removeOrderDB = function(req, res) {
+// Function to remove orders from database when they are processed from the 
+// /kitchen page using the "Order Pending..." button
+exports.removeOrderDB = function(req, res) {
   var info = req.query;
   console.log(info);
 
+  // Removing the appropriate order from the database by its id (from the req query)
   Order.findByIdAndRemove(info.id, function (err) {
     if (err) {
       res.status(500).json(err);
@@ -38,17 +44,7 @@ var removeOrderDB = function(req, res) {
     }
   });
 
-  Order.find({})
-    .exec(function(err, ords) {
-      if (err) {
-        console.log('All the remove orders are fucked', err);
-      } else {
-        console.log(ords);
-      }
-    });
-
   res.json(info);
 }
 
-module.exports.addOrder = addOrderDB;
-module.exports.removeOrder = removeOrderDB;
+module.exports = exports;

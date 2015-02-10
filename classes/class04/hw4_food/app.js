@@ -7,12 +7,8 @@ var exphbs  = require('express-handlebars');
 var mongoose = require('mongoose');
 
 var index = require('./routes/index');
-var getCat = require('./routes/getCat');
-var schema = require('./models/schema');
 var getFood = require('./routes/getFood');
 var getOrders = require('./routes/getOrders')
-
-var Food = schema.Food;
 
 var app = express();
 
@@ -33,12 +29,12 @@ app.get('/ingredients', index.ingredients);
 app.get('/orders', index.orders);
 app.get('/kitchen', index.kitchen);
 
-app.get('/getFood', getFood.addFood);
-app.get('/modify', getFood.modify);
-app.get('/stock', getFood.stock);
+app.get('/getFood', getFood.addFoodDB);
+app.get('/modify', getFood.modifyDB);
+app.get('/stock', getFood.stockDB);
 
-app.get('/addOrder', getOrders.addOrder);
-app.get('/rmOrder', getOrders.removeOrder);
+app.get('/addOrder', getOrders.addOrderDB);
+app.get('/rmOrder', getOrders.removeOrderDB);
 
 mongoose.connect(mongoURI);
 

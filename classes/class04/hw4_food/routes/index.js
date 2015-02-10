@@ -2,11 +2,13 @@ var schema = require('./../models/schema.js');
 var Food = schema.Food;
 var Order = schema.Order;
 
-var home = function(req, res){
+var exports = {}
+
+exports.home = function(req, res){
   res.render('home');
 };
 
-var ingredients = function(req, res) {
+exports.ingredients = function(req, res) {
   // Food.remove({}, function callback() {});
 
   Food.find({}).exec(function(err, foods) {
@@ -31,7 +33,7 @@ var ingredients = function(req, res) {
   });
 }
 
-var orders = function(req, res) {
+exports.orders = function(req, res) {
   Food.find({}).exec(function(err, foods) {
     if (err) {
       console.log('All the orders are fucked', err);
@@ -51,7 +53,7 @@ var orders = function(req, res) {
   });
 }
 
-var kitchen = function(req, res) {
+exports.kitchen = function(req, res) {
   // Order.remove({}, function callback() {});
   var formatted_orders = [];
 
@@ -70,8 +72,4 @@ var kitchen = function(req, res) {
     });
 }
 
-
-module.exports.home = home;
-module.exports.ingredients = ingredients;
-module.exports.orders = orders;
-module.exports.kitchen = kitchen;
+module.exports = exports;
