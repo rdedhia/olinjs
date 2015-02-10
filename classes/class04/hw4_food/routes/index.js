@@ -14,6 +14,18 @@ var ingredients = function(req, res) {
       res.send('All the food is fucked');
     } else {
       console.log(foods);
+
+      // Making it easier to render 'In Stock' and 'Out of Stock' buttons
+      for (var i=0; i<foods.length; i++) {
+        if (foods[i].stock) {
+          // Using underscores because for some reason handlebars isn't
+          // rendering multi-word strings
+          foods[i].stock_display = 'In_Stock';
+        } else {
+          foods[i].stock_display = 'Out_of_Stock';
+        }
+        console.log(foods[i].stock_display);
+      }
       res.render('ingredients', {ingrs: foods});
     }
   });
