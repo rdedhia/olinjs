@@ -1,1 +1,12 @@
 <h1>Welcome to the Kitchen!</h1>
+
+{{#each ords}}
+  <div id={{this._id}}>
+    <form class="kitchen" method="POST">      
+      <span class="name">Burger with {{this.ingrs}}: {{this.price}} </span>
+      <input type="submit" value="Order Pending...">
+    </form>
+  </div>
+{{/each}}
+
+<div id="kitchen-response"></div>
