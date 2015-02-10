@@ -24,15 +24,18 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Static Page Routes
 app.get('/', index.home);
 app.get('/ingredients', index.ingredients);
 app.get('/orders', index.orders);
 app.get('/kitchen', index.kitchen);
 
+// Ingredients Page Dynamic Update Routes
 app.get('/getFood', getFood.addFoodDB);
 app.get('/modify', getFood.modifyDB);
 app.get('/stock', getFood.stockDB);
 
+// Orders and Kitchen Dynamic Update Routes
 app.get('/addOrder', getOrders.addOrderDB);
 app.get('/rmOrder', getOrders.removeOrderDB);
 

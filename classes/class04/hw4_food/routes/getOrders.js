@@ -8,15 +8,13 @@ var exports = {}
 // Function to add new orders to database when they are created from the
 // /orders page using the "Submit Order" button
 exports.addOrderDB = function(req, res) {
-  // Get ingredients information from request query
   var info = req.query;
-  console.log(info.ids);
 
+  // Create new order using info from request query
   var order = new Order({ingr_ids: info.ids,
                         ingrs: info.ingrs,
                         price: info.price
   });
-  console.log(order);
 
   // Save order to database
   order.save(function (err) {
@@ -24,7 +22,8 @@ exports.addOrderDB = function(req, res) {
       console.log('Problem modifying order', err);
       res.status(500).json(err);
     } else {
-      console.log('\nSuccessfully inserted order into db\n');
+      // Send confirmation to client of successful insertion of Order into
+      // database. No need to send any data to client to uncheck boxes
       res.send('.');
     }
   });
@@ -34,7 +33,6 @@ exports.addOrderDB = function(req, res) {
 // /kitchen page using the "Order Pending..." button
 exports.removeOrderDB = function(req, res) {
   var info = req.query;
-  console.log(info);
 
   // Removing the appropriate order from the database by its id (from the req query)
   Order.findByIdAndRemove(info.id, function (err) {
@@ -44,6 +42,7 @@ exports.removeOrderDB = function(req, res) {
     }
   });
 
+  // Sending id of object to be removed from page to client
   res.json(info);
 }
 
