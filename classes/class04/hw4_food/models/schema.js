@@ -13,8 +13,9 @@ var foodSchema = mongoose.Schema({
 var Food = mongoose.model('Food', foodSchema);
 
 var orderSchema = mongoose.Schema({
-	parts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Food'}],
-	completed: Boolean
+	ingr_ids: [{type: mongoose.Schema.Types.ObjectId, ref: 'Food'}],
+	ingrs: [String],
+	price: Number
 });
 
 var Order = mongoose.model('Order', orderSchema);
