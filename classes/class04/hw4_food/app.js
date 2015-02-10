@@ -38,6 +38,7 @@ app.get('/modify', getFood.modify);
 app.get('/stock', getFood.stock);
 
 app.get('/addOrder', getOrders.addOrder);
+app.get('/rmOrder', getOrders.removeOrder);
 
 mongoose.connect(mongoURI);
 

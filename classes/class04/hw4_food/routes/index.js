@@ -20,11 +20,9 @@ var ingredients = function(req, res) {
 }
 
 var orders = function(req, res) {
-  // Order.remove({}, function callback() {});
-
   Food.find({}).exec(function(err, foods) {
     if (err) {
-      res.send('All the food is fucked');
+      console.log('All the orders are fucked', err);
     } else {
       // changing true and false to '' and disabled for checkboxes
       for (var i=0; i<foods.length; i++) {
@@ -42,16 +40,24 @@ var orders = function(req, res) {
 }
 
 var kitchen = function(req, res) {
+  // Order.remove({}, function callback() {});
+  var formatted_orders = [];
+
   Order.find({})
-    .exec(function(err, orders) {
+    .exec(function(err, ords) {
       if (err) {
-        res.send('All the orders are fucked');
+        console.log('All the kitchen orders are fucked', err);
       } else {
-        console.log(orders);
-        res.render('kitchen', {ords: orders});
+        for (var i=0; i<ords.length; i++) {
+          console.log('Order', i, ': ', ords[i]);
+          formatted_orders.push(ords[i]);
+        }
+        console.log('\nDat shit formatted: ', formatted_orders);
+        res.render('kitchen', {ords: formatted_orders});
       }
-    });   
+    });
 }
+
 
 module.exports.home = home;
 module.exports.ingredients = ingredients;
