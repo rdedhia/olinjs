@@ -6,22 +6,23 @@ var Order = schema.Order;
 var output = ''
 
 var addOrderDB = function(req, res) {
-  var ids = []
-  var old_ids = req.query.ids;
-
-  for (var i=0; i<old_ids.length; i++) {
-    ids.push(mongoose.Types.ObjectId(old_ids[i]));
-  }
-
+  var ids = req.query.ids;
   console.log(ids);
-  console.log(old_ids);
 
-  // FUCK THIS SHIT IT AINT WORKING
   var order = new Order({parts: ids,
                     completed: false
   });
   console.log(order);
-    
+
+  order.save(function (err) {
+    if (err) {
+      console.log('Problem modifying order', err);
+      // res.status(500).json(err);
+    } else {
+      console.log('\nSuccessfully inserted order into db\n');
+    }
+  });
+
   res.send('.');
 }
 

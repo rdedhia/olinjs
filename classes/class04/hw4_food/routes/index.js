@@ -42,7 +42,7 @@ var orders = function(req, res) {
 }
 
 var kitchen = function(req, res) {
-  Order.find({completed: false})
+  Order.find({})
     .exec(function(err, orders) {
       if (err) {
         res.send('All the orders are fucked');

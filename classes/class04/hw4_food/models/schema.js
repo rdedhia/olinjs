@@ -13,7 +13,7 @@ var foodSchema = mongoose.Schema({
 var Food = mongoose.model('Food', foodSchema);
 
 var orderSchema = mongoose.Schema({
-	parts: [{type: mongoose.Types.ObjectId, ref: 'Food'}],
+	parts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Food'}],
 	completed: Boolean
 });
 
