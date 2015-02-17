@@ -34,6 +34,7 @@ app.get('/login', index.login);
 
 app.post('/loggingIn', redirect.loggingIn);
 app.post('/makeTwote', redirect.makeTwote);
+app.post('/loggingOut', redirect.loggingOut);
 
 // app.post('/hello', function(req, res) {
 //   var data = req.body.text;

@@ -32,12 +32,14 @@ exports.loggingIn = function(req, res) {
             console.log('Working?');
             req.session.userid = user._id;
             req.session.user = user.name;
-            res.json(req.session);
+            res.json(user);
           }
         });
       } else {
         console.log(user);
         console.log('User already exists');
+        req.session.userid = user._id;
+        req.session.user = user.name;
         res.json(user);
         return;
       }
@@ -45,7 +47,11 @@ exports.loggingIn = function(req, res) {
 };
 
 exports.loggingOut = function(req, res) {
-  // do shit
+  // Getting rid of current user from session
+  req.session.userid = null;
+  req.session.user = null;
+  
+  res.send('.');
 };
 
 exports.makeTwote = function(req, res) {

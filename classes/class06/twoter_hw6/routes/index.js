@@ -9,7 +9,6 @@ exports.home = function(req, res) {
   // User.remove({}, function callback() {});
 
   var data = {};
-  var message;
 
   Twote.find({})
     .exec(function (err, twotes) {
@@ -35,20 +34,11 @@ exports.home = function(req, res) {
       }
     });
 
-  if (req.session.counter) {
-    req.session.counter++;
-    message = "Hello again! Thanks for visiting " + req.session.counter + " times";
-  } else {
-    message = "Hello, thanks for visiting this site!";
-    req.session.counter = 1;
-  }
-
   console.dir(req.cookies);
   console.dir(req.session);
 
-  // Adding shit to data
+  // Adding session to data
   data.session = req.session;
-  data.message = req.message;
 
   res.render("home", {'data': data});
 };

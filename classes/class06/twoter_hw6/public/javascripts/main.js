@@ -49,17 +49,26 @@ $login.submit(logIn);
 
 $new_twote = $('#new_twote');
 $go_login = $('#login');
+$logout = $('#logout');
 
 var goToLogin = function(event) {
   event.preventDefault();
-  // Redirect to login page when not logged in
-  window.location.replace('/login')
+  // Redirect to login page to login
+  window.location.replace('/login');
 }
 
 var logout = function(event) {
   event.preventDefault();
-  // Redirect to login page, get rid of logged in session?
-  window.location.replace('/login')
+  
+  $.post('loggingOut')
+    .done(logoutSuccess)
+    .error(onError);
+}
+
+var logoutSuccess = function(data, status) {
+  console.log('Logged out successfully!');
+  // Redirect to login page after logging out
+  window.location.replace('/login');
 }
 
 var postTwote = function(event) {
@@ -83,4 +92,4 @@ var twoteSuccess = function(data, status) {
 
 $new_twote.submit(postTwote);
 $go_login.click(goToLogin);
-$log
+$logout.click(logout);
