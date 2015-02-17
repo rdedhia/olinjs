@@ -93,9 +93,10 @@ $user_buttons = $('#users').find('li');
 var clickUser = function(event) {
   var name = $(this).html();
   $select_name = $('.' + name);
+  console.log(name);
   console.log($select_name);
   
-  $select_name.css('background-color', 'ebb');
+  // $select_name.css('background-color', '#ebb');
   console.log($select_name.css('background-color'));
 };
 
