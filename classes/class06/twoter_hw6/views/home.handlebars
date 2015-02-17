@@ -2,7 +2,7 @@
   <h1>Fuck you, I'm Twoter</h1>
   {{#if data.session.user}}
     <div id='logout'>
-      <div id='welcome'>Welcome to Twoter, {{data.session.user}}</div>
+      <div id='welcome'>Welcome to Twoter, {{data.user}}</div>
       <button>Logout</button>
     </div>
   {{else}}
@@ -30,7 +30,7 @@
 <div id='users'>
   <h2>Users</h2>
   <ul>
-    {{#each data.users}}  
+    {{#each data.users}} 
       <li>{{this.name}}</li>
     {{/each}}
   </ul>

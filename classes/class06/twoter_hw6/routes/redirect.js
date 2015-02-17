@@ -6,9 +6,8 @@ var exports = {};
 
 exports.loggingIn = function(req, res) {
   var info = req.body;
-  console.log(info);
   console.log(req.session);
-  
+
   User.findOne({name: info.user})
     .exec(function (err, user) {
       if (err) {
@@ -41,22 +40,20 @@ exports.loggingIn = function(req, res) {
         req.session.userid = user._id;
         req.session.user = user.name;
         res.json(user);
-        return;
       }
     });
 };
 
 exports.loggingOut = function(req, res) {
   // Getting rid of current user from session
-  req.session.userid = null;
-  req.session.user = null;
+  req.session.passport = {}
   
   res.send('.');
 };
 
 exports.makeTwote = function(req, res) {
   var info = req.body;
-  var user = req.session.user;
+  var user = req.session.passport.user.displayName;
 
   var twote = new Twote({
     text: info.text,

@@ -17,8 +17,7 @@ exports.Twote = mongoose.model('Twote', twoteSchema);
 
 // defining schema for users
 var userSchema = mongoose.Schema({
-  twote_ids: [{type: mongoose.Schema.Types.ObjectId, ref: 'Twote'}],
-  name: String
+  name: String,
 });
 
 exports.User = mongoose.model('User', userSchema);

@@ -12,7 +12,7 @@ var logIn = function(event) {
   console.log(data);
   console.log('Clicking the login button!');
 
-  $.post('loggingIn', data)
+  $.post('/authenticate', data)
     .done(successLogin)
     .error(onError);
 };
@@ -78,8 +78,8 @@ var twoteSuccess = function(data, status) {
   var user = data.owner;
   
   // Display twote on page async
-  $('#twotes').find('h2').append('<div id="new_twote"><p class="twote">"' + text + ' ~' + user + '</p></div>');
-  $('#new_twote').class(user);
+  $('#twotes').find('h2').after('<div id="new_twote"><p class="twote">"' + text + '" ~' + user + '</p></div>');
+  $('#new_twote').addClass(user);
 };
 
 $add_twote.submit(postTwote);
