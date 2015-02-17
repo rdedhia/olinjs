@@ -1,25 +1,29 @@
-<h1>Fuck you, I'm Twoter</h1>
-{{#if data.session.user}}
-  <div id='logout'>
-    <div>Welcome to Twoter, {{data.session.user}}</div>
-    <button>Logout</button>
-  </div>
-{{else}}
-  <div id='login'>
-    <div id='username'>You should probably log in, you fuck</div>
-    <button>Login</button>
-  </div>
-{{/if}}
+<div id = 'header'>
+  <h1>Fuck you, I'm Twoter</h1>
+  {{#if data.session.user}}
+    <div id='logout'>
+      <div id='welcome'>Welcome to Twoter, {{data.session.user}}</div>
+      <button>Logout</button>
+    </div>
+  {{else}}
+    <div id='login'>
+      <div id='welcome'>You should probably log in, you fuck</div>
+      <button>Login</button>
+    </div>
+  {{/if}}
+</div>
 <div id='twotes'>
-  <h3>Post a new twote!</h3>
-  <form id='new_twote'>
-    <input type='text' class='blank' name='text'>
-    <input type='submit' value='Post Twote!'>
-  </form>
+  {{#if data.session.user}}
+    <h3>Post a new twote!</h3>
+    <form id='add_twote'>
+      <input type='text' class='blank' name='text'>
+      <input type='submit' value='Post Twote!'>
+    </form>
+  {{/if}}
   <h2>Twotes</h2>
   {{#each data.twotes}}
-    <div id={{this._id}}>
-      <p class='twote'>"{{this.text}}" -{{this.owner}}</p>
+    <div class={{this.owner}} id={{this._id}}>
+      <p class='twote'>"{{this.text}}" ~{{this.owner}}</p>
     </div>
   {{/each}}
 </div>

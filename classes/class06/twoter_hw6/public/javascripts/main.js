@@ -1,15 +1,3 @@
-$('#hello-button1').click(function() {
-  $.post('/hello', {
-    text: 'data'
-  })
-  .done(function(data) {
-    $('body').append(data);
-  })
-  .error(function (err) {
-    console.error(err);
-  });
-});
-
 // *** LOGIN PAGE ***
 
 $login = $('#log-form');
@@ -33,7 +21,7 @@ var logIn = function(event) {
 var successLogin = function(data, status) {
   console.log(data);
   window.location.replace('/');
-}
+};
 
 // Error function for get requests on all pages
 var onError = function(data, status) {
@@ -47,7 +35,7 @@ $login.submit(logIn);
 
 // *** HOME PAGE ***
 
-$new_twote = $('#new_twote');
+$add_twote = $('#add_twote');
 $go_login = $('#login');
 $logout = $('#logout');
 
@@ -55,7 +43,7 @@ var goToLogin = function(event) {
   event.preventDefault();
   // Redirect to login page to login
   window.location.replace('/login');
-}
+};
 
 var logout = function(event) {
   event.preventDefault();
@@ -63,13 +51,13 @@ var logout = function(event) {
   $.post('loggingOut')
     .done(logoutSuccess)
     .error(onError);
-}
+};
 
 var logoutSuccess = function(data, status) {
   console.log('Logged out successfully!');
   // Redirect to login page after logging out
   window.location.replace('/login');
-}
+};
 
 var postTwote = function(event) {
   var data = {};
@@ -83,13 +71,32 @@ var postTwote = function(event) {
   $.post('makeTwote', data)
     .done(twoteSuccess)
     .error(onError);
-}
+};
 
 var twoteSuccess = function(data, status) {
-  console.log(data);
+  var text = data.text;
+  var user = data.owner;
+  
   // Display twote on page async
-}
+  $('#twotes').find('h2').append('<div id="new_twote"><p class="twote">"' + text + ' ~' + user + '</p></div>');
+  $('#new_twote').class(user);
+};
 
-$new_twote.submit(postTwote);
+$add_twote.submit(postTwote);
 $go_login.click(goToLogin);
 $logout.click(logout);
+
+// On click effects
+
+$user_buttons = $('#users').find('li');
+
+var clickUser = function(event) {
+  var name = $(this).html();
+  $select_name = $('.' + name);
+  console.log($select_name);
+  
+  $select_name.css('background-color', 'ebb');
+  console.log($select_name.css('background-color'));
+};
+
+$user_buttons.click(clickUser);
