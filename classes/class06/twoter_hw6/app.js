@@ -10,9 +10,13 @@ var session = require('express-session');
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-var config = require('./oauth.js');
 var index = require('./routes/index');
 var redirect = require('./routes/redirect');
+var User = require('./models/schema').User;
+
+var clientID = process.env.clientID || require('./oauth.js').facebook.clientID;
+var clientSecret = process.env.clientSecret || require('./oauth.js').facebook.clientSecret;
+var callbackURL = process.env.callbackURL || require('./oauth.js').facebook.callbackURL;
 
 var app = express();
 
@@ -48,9 +52,9 @@ passport.deserializeUser(function(obj, done) {
 });
 
 passport.use(new FacebookStrategy({
-  clientID: config.facebook.clientID,
-  clientSecret: config.facebook.clientSecret,
-  callbackURL: config.facebook.callbackURL
+  clientID: clientID,
+  clientSecret: clientSecret,
+  callbackURL: callbackURL
 }, function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
       return done(null, profile);
@@ -58,22 +62,59 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-// Authenticate routes and add passport to session
+// Authenticate routes, add passport to session, and add new user to db
 app.get('/auth/facebook', passport.authenticate('facebook'), function (req, res) {});
 
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/');
-  });
+    if (Object.keys(req.session.passport).length !== 0) {
+      var name = req.session.passport.user.displayName;
+      User.findOne({name: name})
+        .exec(function (err, user) {
+          if (err) {
+            console.log('findOne query failed');
+          } else if (!user) {
+            // Add new user to db if user does not yet exist
+            var user = new User({
+              name: name,
+            });
+            // Save new user
+            user.save(function (err) {
+              if (err) {
+                console.log('Problem saving user', err);
+              }
+              console.log('\ngotta create dat new user');
+              console.log('USER ID', user._id);
+              // save current user_id
+              req.session.userid = user._id;
+              console.log('WE BE AUTHENTICATING YEEEEE\n')
+              console.log(req.session);
+              // Redirect to home page
+              res.redirect('/');
+            });
+          } else {
+            console.log('\nUser already exists')
+            console.log('USER ID', user._id);
+            // save current user_id
+            req.session.userid = user._id;
+            console.log('WE BE AUTHENTICATING YEEEEE\n')
+            console.log(req.session);
+            // Redirect to home page
+            res.redirect('/');
+          }
+        });
+    }
+});
 
 // Routes to pages
 app.get('/', index.home);
 app.get('/login', index.login);
 
 // Routes to post data to server
-app.post('/makeTwote', redirect.makeTwote);
 app.post('/loggingOut', redirect.loggingOut);
+app.post('/makeTwote', redirect.makeTwote);
+app.post('/rmTwote', redirect.rmTwote);
 
 app.listen(PORT, function() {
   console.log('App running');

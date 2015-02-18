@@ -3,6 +3,7 @@ body {
 }
 
 #header {
+	position: relative;
 	width: 100%;
 	background-color: #ebb;
 	margin-bottom: 3%;
@@ -19,23 +20,28 @@ body {
 }
 
 #login, #logout {
+	position: relative;
 	display: inline-block;
 	float: left;
-	margin-left: 20%;
+	margin-left: 10%;
 	overflow: auto;
 }
 
 #welcome {
+	position: relative;
 	display: inline-block;
 	float: left;
-	margin-right: 2%;
+	width: 100%;
+	margin-top: 1%;
+	margin-bottom: 1%;
 }
 
 #header button {
 	position: relative;
 	display: inline-block;
-	float: left;
-	padding: 2%;
+	float: right;
+	padding: 1%;
+	margin-right: 2%;
 }
 
 #twotes {
@@ -48,8 +54,25 @@ body {
 #twotes div {
 	text-decoration: none;
 	background-color: #ddf;
-	padding: 4%;
 	margin-bottom: 2%;
+	overflow: auto;
+}
+
+.twote {
+	margin-left: 4%;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	display: inline-block;
+	float: left;
+}
+
+#twotes div button {
+	display: inline-block;
+	float: right;
+	margin-top: 1%;
+	margin-bottom: 1%;
+	margin-right: 5%;
+	padding: 1%;
 }
 
 #users {

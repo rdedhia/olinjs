@@ -1,43 +1,9 @@
-// *** LOGIN PAGE ***
-
-$login = $('#log-form');
-
-// Function to send data back to server when you submit login form
-var logIn = function(event) {
-  var data = {};
-  event.preventDefault();
-
-  data.user = $(this).find('.blank').val();
-
-  console.log(data);
-  console.log('Clicking the login button!');
-
-  $.post('/authenticate', data)
-    .done(successLogin)
-    .error(onError);
-};
-
-// Success function for logIn
-var successLogin = function(data, status) {
-  console.log(data);
-  window.location.replace('/');
-};
-
-// Error function for get requests on all pages
-var onError = function(data, status) {
-  // Sending status and error to console on client
-  console.log('status', status);
-  console.log('error', data);
-};
-
-// Binding forms to event handlers for login page
-$login.submit(logIn);
-
 // *** HOME PAGE ***
 
-$add_twote = $('#add_twote');
-$go_login = $('#login');
-$logout = $('#logout');
+var $add_twote = $('#add_twote');
+var $go_login = $('#login').find('button');
+var $logout = $('#logout').find('button');
+var $remove = $('#twotes').find('button');
 
 var goToLogin = function(event) {
   event.preventDefault();
@@ -65,6 +31,9 @@ var postTwote = function(event) {
   
   data.text = $(this).find('.blank').val();
 
+  // Make input field blank
+  $(this).find('.blank').val('');
+
   console.log(data);
   console.log('Making a new twote');
 
@@ -78,26 +47,59 @@ var twoteSuccess = function(data, status) {
   var user = data.owner;
   
   // Display twote on page async
-  $('#twotes').find('h2').after('<div id="new_twote"><p class="twote">"' + text + '" ~' + user + '</p></div>');
-  $('#new_twote').addClass(user);
+  $('#twotes').find('h2').after('<div id="' + data._id + '"><p class="twote">"' + text + '" ~' + user + '</p><button>Delete</button></div>');
+  $('#' + data._id).addClass(data.owner_id);
+  // Binding delete event handler to new twote
+  $('.' + data.owner_id).find('button').click(deleteTwote);
+};
+
+var deleteTwote = function(event) {
+  var data = {};
+  event.preventDefault();
+
+  data.twoteid = $(this).parent().attr('id');
+  console.log('\nFUCK YOU\n')
+  console.log(this);
+  console.log(data);
+
+  $.post('rmTwote', data)
+    .done(deleteSuccess)
+    .error(onError);
+};
+
+var deleteSuccess = function(data, status) {
+  var id = '#' + data.twoteid;
+  console.log(id);
+  // remove twote div we just deleted from db
+  $(id).remove();
+};
+
+// Error function for get requests on all pages
+var onError = function(data, status) {
+  // Sending status and error to console on client
+  console.log('status', status);
+  console.log('error', data);
 };
 
 $add_twote.submit(postTwote);
 $go_login.click(goToLogin);
 $logout.click(logout);
+$remove.click(deleteTwote);
 
 // On click effects
 
 $user_buttons = $('#users').find('li');
 
 var clickUser = function(event) {
-  var name = $(this).html();
-  $select_name = $('.' + name);
-  console.log(name);
-  console.log($select_name);
+  var id = $(this).attr('class');
+  var $id_select = $('.' + id);
+  console.log($id_select);
   
-  // $select_name.css('background-color', '#ebb');
-  console.log($select_name.css('background-color'));
+  // setting everything but selector to old background color (#ddf)
+  $('#users li').css('background-color', '#ddf');
+  $('#twotes div').css('background-color', '#ddf')
+  // toggle selected class elements from blue (#ddf) to red (#ebb)
+  $id_select.css('background-color', '#ebb');    
 };
 
 $user_buttons.click(clickUser);

@@ -4,49 +4,10 @@ var Twote = schema.Twote;
 
 var exports = {};
 
-exports.loggingIn = function(req, res) {
-  var info = req.body;
-  console.log(req.session);
-
-  User.findOne({name: info.user})
-    .exec(function (err, user) {
-      if (err) {
-        console.log('findOne query failed');
-      } else if (!user) {
-        console.log('User doesnt exist. Need to create...');
-
-        var user = new User({
-          name: info.user,
-          twote_ids: []
-        });
-
-        console.log(user);
-
-        user.save(function (err) {
-          if (err) {
-            console.log('Problem saving user', err);
-            // Setting error status
-            res.status(500).json(err);
-          } else {
-            console.log('Working?');
-            req.session.userid = user._id;
-            req.session.user = user.name;
-            res.json(user);
-          }
-        });
-      } else {
-        console.log(user);
-        console.log('User already exists');
-        req.session.userid = user._id;
-        req.session.user = user.name;
-        res.json(user);
-      }
-    });
-};
-
 exports.loggingOut = function(req, res) {
   // Getting rid of current user from session
-  req.session.passport = {}
+  req.session.passport = {};
+  req.session.userid = '';
   
   res.send('.');
 };
@@ -54,10 +15,16 @@ exports.loggingOut = function(req, res) {
 exports.makeTwote = function(req, res) {
   var info = req.body;
   var user = req.session.passport.user.displayName;
+  var id = req.session.userid;
+
+  console.log(req.session);
+  console.log('USER', user);
+  console.log('ID', id);
 
   var twote = new Twote({
     text: info.text,
-    owner: user
+    owner: user,
+    owner_id: id
   });
 
   console.log(twote);
@@ -72,5 +39,22 @@ exports.makeTwote = function(req, res) {
     }
   });
 };
+
+exports.rmTwote = function(req, res) {
+  var info = req.body;
+  console.log(info);
+
+  Twote.findByIdAndRemove(info.twoteid, function (err) {
+    if (err) {
+      res.status(500).json(err);
+      console.log('Failed to remove document', info.twoteid, err)
+    } else {
+      // Sending id of Twote object to be removed to client
+      console.log('removal worked?')
+      res.json(info);
+    }
+  });
+
+}
 
 module.exports = exports;

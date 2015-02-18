@@ -2,7 +2,7 @@
   <h1>Fuck you, I'm Twoter</h1>
   {{#if data.session.user}}
     <div id='logout'>
-      <div id='welcome'>Welcome to Twoter, {{data.user}}</div>
+      <p id='welcome'>Welcome to Twoter, {{data.session.user.displayName}}</p>
       <button>Logout</button>
     </div>
   {{else}}
@@ -22,8 +22,11 @@
   {{/if}}
   <h2>Twotes</h2>
   {{#each data.twotes}}
-    <div class="{{this.owner}}" id={{this._id}}>
+    <div class="{{this.owner_id}}" id={{this._id}}>
       <p class='twote'>"{{this.text}}" ~{{this.owner}}</p>
+      {{#if this.del}}
+        <button>Delete</button>
+      {{/if}}
     </div>
   {{/each}}
 </div>
@@ -31,7 +34,7 @@
   <h2>Users</h2>
   <ul>
     {{#each data.users}} 
-      <li>{{this.name}}</li>
+      <li class={{this._id}}>{{this.name}}</li>
     {{/each}}
   </ul>
 </div>
