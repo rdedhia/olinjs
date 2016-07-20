@@ -1,4 +1,4 @@
-Olin.js - Spring 2015
+Olin.js
 ===
 
 ##Course Description
@@ -12,44 +12,29 @@ This repository contains all of the lesson material and assignments to get you g
 Feel free to submit a Github issue if you find any problems in the course and we'll do our best to fix it up.
 
 ##Course Contents
-* [Class 0 - Getting Ready for the Course](./classes/class00)
-* [Class 1 - Course Introduction and The Internet](./classes/class01)
-* [Class 2 - Intro to Javascript](./classes/class02)
-* [Class 3 - Express, Templating, and MongoDB](./classes/class03)
-* [Class 4 - The Client](./classes/class04)
-* [Class 5 - Flex Day](./classes/class05)
-* [Class 6 - Sessions, Users, Errors, CSS, and Debugging](./classes/class06)
-* [Class 7 - Application Integration](./classes/class07)
-* [Class 8 - Unit Testing and Task Running](./classes/class08)
-* [Class 9 - Architecture and Diagramming](./classes/class09)
-* [Class 10 - Application Frameworks (Lab 1)](./classes/class10)
-* [Class 11 - Security](./classes/class11)
-* [Class 12 - Deployment and Scaling](./classes/class12)
-* [Class 13 - Framework Reprise (Lab 2)](./classes/class13)
-* [Class 14 - Project Planning](./classes/class14)
-* [Class 15 - Agile Project Management](./classes/class15)
+* [Lesson 0 - Getting Ready for the Course](./lessons/00-getting-ready)
+* [Lesson 1 - Course Introduction and The Internet](./lessons/01-welcome-internet)
+* [Lesson 2 - Intro to Javascript](./lessons/02-javascript)
+* [Lesson 3 - Express and Templating](./lessons/03-express-templates)
+* [Lesson 4 - MongoDB](./lessons/04-mongo)
+* [Lesson 5 - The Client](./lessons/05-client-jquery-ajax)
+* [Lesson 6 - Sessions, Users, Errors, CSS, and Debugging](./lessons/06-css-development-style)
+* [Lesson 7 - Application Integration](./lessons/07-apis-debugging)
+* [Lesson 8 - Unit Testing and Task Running](./lessons/08-tests-tasks)
+* [Lesson 9 - Application Frameworks (Lab 1)](./lessons/09-clientside-frameworks)
+* [Lesson 10 - Security](./lessons/10-security)
+* [Lesson 11 - Deployment and Scaling](./lessons/11-deployment-scaling)
+* [Lesson 12 - Agile Project Management](./lessons/12-agile)
+* [Lesson 13 - Architecture and Diagramming](./lessons/13-designs-diagrams)
 * [Lab 1](./lab1)
 * [Lab 2](./lab2)
 * [Final Project](./finalproject)
 
 
 ##Learning Objectives
-1. Understand the modern internet and web applications 
+1. Understand the modern internet and web applications
 2. Become adept with JavaScript, Node, and database technologies
 3. Learn software design skills and strategies relevant to web infrastructure
 4. Work effectively as a member of a project team
 5. Balance scope and design decisions to complete a viable web application
 6. Communication and presentation of code and software projects
-
-##Course Structure
-* 3 weeks of introduction to course material with homework
-* 4 weeks of labs working with a partner on ~1.5 week long assignments; broader topics in class
-* 6 weeks of project work in  teams of 4; in-depth tutorials and work time in class
-
-##Grading
-* 20% Homeworks
-* 30% Labs
-* 50% Project (final plus design reviews)
-
-##Late Policy
-10% off per day. Extensions will be lenient if requested more than 36 hours in advance.
