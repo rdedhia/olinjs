@@ -1,0 +1,41 @@
+<div id = 'header'>
+  <h1>Fuck you, I'm Twoter</h1>
+  {{#if data.session.user}}
+    <div id='logout'>
+      <p id='welcome'>Welcome to Twoter, {{data.session.user.displayName}}</p>
+      <button>Logout</button>
+    </div>
+  {{else}}
+    <div id='login'>
+      <div id='welcome'>You should probably log in, you fuck</div>
+      <button>Login</button>
+    </div>
+  {{/if}}
+</div>
+<div id='twotes'>
+  {{#if data.session.user}}
+    <h3>Post a new twote!</h3>
+    <form id='add_twote'>
+      <input type='text' class='blank' name='text'>
+      <input type='submit' value='Post Twote!'>
+    </form>
+  {{/if}}
+  <h2>Twotes</h2>
+  {{#each data.twotes}}
+    <div class="{{this.owner_id}}" id={{this._id}}>
+      <p class='twote'>"{{this.text}}" ~{{this.owner}}</p>
+      {{#if this.del}}
+        <button>Delete</button>
+      {{/if}}
+    </div>
+  {{/each}}
+</div>
+<div id='users'>
+  <h2>Users</h2>
+  <ul>
+    {{#each data.users}} 
+      <li class={{this._id}}>{{this.name}}</li>
+    {{/each}}
+  </ul>
+</div>
+
